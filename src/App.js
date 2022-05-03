@@ -61,7 +61,7 @@ function App() {
       .then((res) => res.json())
       .then((data) => {
         setCountry(countryCode);
-        setCountryInfo(data.data);
+        setCountryInfo(data);
       });
   };
 
