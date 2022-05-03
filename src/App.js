@@ -20,7 +20,7 @@ function App() {
   const [countryInfo, setCountryInfo] = useState({});
   const [casesType, setCasesType] = useState("cases");
   const [tableData, setTableData] = useState([]);
-  const [mapCenter, setMapCenter] = useState({ lat: 34.80746, lng: -40.4796 });
+  const [mapCenter, setMapCenter] = useState({ lat: 35, lng: 105 });
   const [mapZoom, setMapZoom] = useState(3);
 
   useEffect(() => {
