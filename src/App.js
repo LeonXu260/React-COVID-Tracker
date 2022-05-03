@@ -38,6 +38,8 @@ function App() {
           </Select>
         </FormControl>
       </header>
+
+      <section className="app__stats"></section>
     </section>
   );
 }
