@@ -6,7 +6,6 @@ import {
   Card,
   CardContent,
 } from "@material-ui/core";
-import axios from "axios";
 import InfoBox from "./InfoBox";
 import Map from "./Map";
 import Table from "./Table";
@@ -22,28 +21,26 @@ function App() {
   const [tableData, setTableData] = useState([]);
 
   useEffect(() => {
-    axios.get("https://disease.sh/v3/covid-19/all").then((data) => {
-      setCountryInfo(data.data);
-    });
+    fetch("https://disease.sh/v3/covid-19/all")
+      .then((res) => res.json())
+      .then((data) => {
+        setCountryInfo(data);
+      });
   }, []);
 
   useEffect(() => {
     const getCountriesData = async () => {
-      try {
-        await axios
-          .get("https://disease.sh/v3/covid-19/countries")
-          .then((data) => {
-            const countries = data.data.map((country) => ({
-              name: country.country,
-              value: country.countryInfo.iso2,
-            }));
-            const sortedData = sortData(data.data);
-            setTableData(sortedData);
-            setCountries(countries);
-          });
-      } catch (e) {
-        console.log(e);
-      }
+      await fetch("https://disease.sh/v3/covid-19/countries")
+        .then((res) => res.json())
+        .then((data) => {
+          const countries = data.map((country) => ({
+            name: country.country,
+            value: country.countryInfo.iso2,
+          }));
+          const sortedData = sortData(data);
+          setTableData(sortedData);
+          setCountries(countries);
+        });
     };
     getCountriesData();
   }, []);
@@ -57,10 +54,12 @@ function App() {
         ? "https://disease.sh/v3/covid-19/all"
         : `https://disease.sh/v3/covid-19/countries/${countryCode}`;
 
-    await axios.get(url).then((data) => {
-      setCountry(countryCode);
-      setCountryInfo(data.data);
-    });
+    await fetch(url)
+      .then((res) => res.json())
+      .then((data) => {
+        setCountry(countryCode);
+        setCountryInfo(data.data);
+      });
   };
 
   return (
