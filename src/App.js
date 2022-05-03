@@ -9,12 +9,14 @@ import {
 import axios from "axios";
 import InfoBox from "./InfoBox";
 import Map from "./Map";
+import Table from "./Table";
 import "./App.css";
 
 function App() {
   const [countries, setCountries] = useState([]);
   const [country, setCountry] = useState("worldwide");
   const [countryInfo, setCountryInfo] = useState({});
+  const [tableData, setTableData] = useState([]);
 
   useEffect(() => {
     axios.get("https://disease.sh/v3/covid-19/all").then((data) => {
@@ -94,6 +96,7 @@ function App() {
       <Card className="app__right">
         <CardContent>
           <h3>Live Cases by Country</h3>
+          <Table countries={tableData} />
           <h3>Worldwide new cases</h3>
         </CardContent>
       </Card>
