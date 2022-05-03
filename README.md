@@ -30,6 +30,9 @@ You can also document commands to lint the code or run tests. These steps help t
 ## Authors and acknowledgment
 - [Leon Xu](https://gitlab.com/leonxu260)
 
+The following API was used in this project:
+- [Open Disease Data API](disease.sh)
+
 ## License
 For open source projects, say how it is licensed.
 
