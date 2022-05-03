@@ -10,6 +10,7 @@ import axios from "axios";
 import InfoBox from "./InfoBox";
 import Map from "./Map";
 import Table from "./Table";
+import { sortData } from "./util";
 import "./App.css";
 
 function App() {
@@ -34,6 +35,8 @@ function App() {
               name: country.country,
               value: country.countryInfo.iso2,
             }));
+            const sortedData = sortData(data.data);
+            setTableData(sortedData);
             setCountries(countries);
           });
       } catch (e) {
