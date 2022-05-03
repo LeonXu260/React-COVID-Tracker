@@ -1,5 +1,12 @@
 import React, { useEffect, useState } from "react";
-import { FormControl, Select, MenuItem, Card } from "@material-ui/core";
+import {
+  FormControl,
+  Select,
+  MenuItem,
+  Card,
+  CardContent,
+} from "@material-ui/core";
+import axios from "axios";
 import InfoBox from "./InfoBox";
 import Map from "./Map";
 import "./App.css";
@@ -7,26 +14,48 @@ import "./App.css";
 function App() {
   const [countries, setCountries] = useState([]);
   const [country, setCountry] = useState("worldwide");
+  const [countryInfo, setCountryInfo] = useState({});
+
+  useEffect(() => {
+    axios.get("https://disease.sh/v3/covid-19/all").then((data) => {
+      setCountryInfo(data.data);
+    });
+  }, []);
 
   useEffect(() => {
     const getCountriesData = async () => {
-      await fetch("https://disease.sh/v3/covid-19/countries")
-        .then((response) => response.json())
-        .then((data) => {
-          const countries = data.map((country) => ({
-            name: country.country,
-            value: country.countryInfo.iso2,
-          }));
-          setCountries(countries);
-        });
+      try {
+        await axios
+          .get("https://disease.sh/v3/covid-19/countries")
+          .then((data) => {
+            const countries = data.data.map((country) => ({
+              name: country.country,
+              value: country.countryInfo.iso2,
+            }));
+            setCountries(countries);
+          });
+      } catch (e) {
+        console.log(e);
+      }
     };
     getCountriesData();
-  }, [countries]);
+  }, []);
 
-  const countryChange = (e) => {
+  const countryChange = async (e) => {
     const countryCode = e.target.value;
     setCountry(countryCode);
+
+    const url =
+      countryCode === "worldwide"
+        ? "https://disease.sh/v3/covid-19/all"
+        : `https://disease.sh/v3/covid-19/countries/${countryCode}`;
+
+    await axios.get(url).then((data) => {
+      setCountry(countryCode);
+      setCountryInfo(data.data);
+    });
   };
+
   return (
     <section className="app">
       <article className="app__left">
@@ -43,14 +72,31 @@ function App() {
         </header>
 
         <section className="app__stats">
-          <InfoBox title="Coronavirus Cases" />
-          <InfoBox title="Recovered " />
-          <InfoBox title="Deaths" />
+          <InfoBox
+            title="Coronavirus Cases"
+            cases={countryInfo.todayCases}
+            total={countryInfo.cases}
+          />
+          <InfoBox
+            title="Recovered "
+            cases={countryInfo.todayRecovered}
+            total={countryInfo.recovered}
+          />
+          <InfoBox
+            title="Deaths"
+            cases={countryInfo.todayDeaths}
+            total={countryInfo.deaths}
+          />
         </section>
 
         <Map />
       </article>
-      <Card className="app__right"></Card>
+      <Card className="app__right">
+        <CardContent>
+          <h3>Live Cases by Country</h3>
+          <h3>Worldwide new cases</h3>
+        </CardContent>
+      </Card>
     </section>
   );
 }
