@@ -105,7 +105,12 @@ function App() {
           />
         </section>
 
-        <Map center={mapCenter} zoom={mapZoom} countries={mapCountries} />
+        <Map
+          center={mapCenter}
+          zoom={mapZoom}
+          countries={mapCountries}
+          casesType={casesType}
+        />
       </article>
       <Card className="app__right">
         <CardContent>
