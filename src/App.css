@@ -19,6 +19,11 @@ body {
   justify-content: space-between;
 }
 
+.app__header > h1 {
+  color: #002FA7;
+  font-size: 2rem;
+}
+
 .app__left {
   flex: 0.9
 }
