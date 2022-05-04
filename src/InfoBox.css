@@ -11,7 +11,7 @@
 }
 
 .infoBox--red {
-    border-top: 10px solid red;
+    border-color: red;
 }
 
 .infoBox__cases {
