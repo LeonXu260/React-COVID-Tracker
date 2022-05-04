@@ -40,7 +40,7 @@ export const showDataOnMap = (data, casesType = "cases") =>
             style={{ backgroundImage: `url(${country.countryInfo.flag})` }}
           />
           <article className="info-name">{country.country}</article>
-          <article className="info-confirm">
+          <article className="info-confirmed">
             Cases: {numeral(country.cases).format("0,0")}
           </article>
           <article className="info-recovered">
