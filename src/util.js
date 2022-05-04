@@ -47,7 +47,7 @@ export const showDataOnMap = (data, casesType = "cases") =>
           />
           <article className="info-name">{country.country}</article>
           <article className="info-confirm">
-            {numeral(country.cases).format("0,0")}
+            Cases: {numeral(country.cases).format("0,0")}
           </article>
           <article className="info-recovered">
             Recovered: {numeral(country.recovered).format("0,0")}
